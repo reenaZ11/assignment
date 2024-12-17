@@ -59,17 +59,16 @@ const ArtWorkTable = () => {
         currentPage++;
       }
 
-      const newSelectedIds = rowsToSelect;
-      setSelectedProductIds((prevIds) => [...prevIds, ...newSelectedIds]); 
+      const newSelectedIds = rowsToSelect.map(artwork => artwork.id);
+setSelectedProductIds(prevIds => new Set([...prevIds, ...newSelectedIds])); 
       overlayRef.current?.hide();
     } else {
       alert(`Please enter a valid number of rows (maximum: ${totalAvailableRows}).`);
     }
   };
 
-  const handleSelectionChange = (e) => {
-    const selectedRows = e.value;  
-    setSelectedProductIds(selectedRows);  
+  const handleSelectionChange = (e: { value: number[] }) => {
+    setSelectedProductIds(new Set(e.value));  
   };
 
   return (
