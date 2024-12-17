@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchArtWorks } from "../services/api";
 import { ArtWorkTypes, PaginationTypes } from "../types/types";
-import { DataTable, DataTableSelectionChangeEvent } from "primereact/datatable";
+import { DataTable, DataTableSelectionCellChangeEvent } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { FaChevronDown } from "react-icons/fa";
@@ -67,7 +67,7 @@ const ArtWorkTable = () => {
     }
   };
 
-  const handleSelectionChange = (e: DataTableSelectionChangeEvent) => {
+  const handleSelectionChange = (e: DataTableSelectionCellChangeEvent) => {
     const selectedRows = e.value;  
     setSelectedProductIds(selectedRows);  
   };
