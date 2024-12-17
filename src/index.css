@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  
+}
+
+.p-checkbox .p-checkbox-box {
+  border: 2px solid #4CAF50; 
+  border-radius: 4px; 
+}
+
+.p-checkbox:hover .p-checkbox-box {
+  border-color: #388E3C; 
+}
+
+
+
+
