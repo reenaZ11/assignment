@@ -12,7 +12,7 @@ const ArtWorkTable = () => {
   const [pagination, setPagination] = useState<PaginationTypes | null>(null);
   const [inputValue, setInputValue] = useState("");
   const overlayRef = useRef<OverlayPanel | null>(null);
-  const [selectedArtWorks, setSelectedArtWorks] = useState<ArtWorkTypes[]>([]); 
+  const [selectedArtWorks, setSelectedArtWorks] = useState<ArtWorkTypes[]>([]);
 
   const fetchPageData = async (page: number) => {
     try {
@@ -51,7 +51,10 @@ const ArtWorkTable = () => {
       let currentPage = page;
       let selectedCount = 0;
 
-      while (selectedCount < numberOfRows && currentPage <= Math.ceil(totalAvailableRows / pagination!.limit)) {
+      while (
+        selectedCount < numberOfRows &&
+        currentPage <= Math.ceil(totalAvailableRows / pagination!.limit)
+      ) {
         const remainingToSelect = numberOfRows - selectedCount;
         const currentPageData = artWorks.slice(0, remainingToSelect);
         rowsToSelect = [...rowsToSelect, ...currentPageData];
@@ -59,15 +62,20 @@ const ArtWorkTable = () => {
         currentPage++;
       }
 
-      setSelectedArtWorks((prevSelected) => [...prevSelected, ...rowsToSelect]);
+      setSelectedArtWorks((prevSelected) => [
+        ...prevSelected,
+        ...rowsToSelect,
+      ]);
       overlayRef.current?.hide();
     } else {
-      alert(`Please enter a valid number of rows (maximum: ${totalAvailableRows}).`);
+      alert(
+        `Please enter a valid number of rows (maximum: ${totalAvailableRows}).`
+      );
     }
   };
 
   const handleSelectionChange = (e: { value: ArtWorkTypes[] }) => {
-    setSelectedArtWorks(e.value); 
+    setSelectedArtWorks(e.value);
   };
 
   return (
@@ -75,7 +83,7 @@ const ArtWorkTable = () => {
       <DataTable
         value={artWorks}
         selectionMode="checkbox"
-        selection={selectedArtWorks} 
+        selection={selectedArtWorks}
         onSelectionChange={handleSelectionChange}
         dataKey="id"
         tableStyle={{ minWidth: "40rem" }}
@@ -87,9 +95,17 @@ const ArtWorkTable = () => {
         ></Column>
 
         <Column field="title" header="Title" className="w-[18%]" />
-        <Column field="place_of_origin" header="Place of Origin" className="w-[12%]" />
+        <Column
+          field="place_of_origin"
+          header="Place of Origin"
+          className="w-[12%]"
+        />
         <Column field="artist_display" header="Artist" className="w-[26%]" />
-        <Column field="inscriptions" header="Inscriptions" className="w-[26%] overflow-hidden" />
+        <Column
+          field="inscriptions"
+          header="Inscriptions"
+          className="w-[26%] overflow-hidden"
+        />
         <Column field="date_start" header="Start Date" className="w-[9%]" />
         <Column field="date_end" header="End Date" className="w-[9%]" />
       </DataTable>
@@ -98,20 +114,30 @@ const ArtWorkTable = () => {
         <button
           onClick={handlePrevPage}
           disabled={page === 1}
-          className={`px-4 py-2 bg-blue-500 text-white rounded ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            page === 1 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           Previous
         </button>
 
         <span>
-          Page {page} of {pagination ? Math.ceil(pagination.total / pagination.limit) : 1}
+          Page {page} of{" "}
+          {pagination ? Math.ceil(pagination.total / pagination.limit) : 1}
         </span>
 
         <button
           onClick={handleNextPage}
-          disabled={pagination ? page >= Math.ceil(pagination.total / pagination.limit) : false}
+          disabled={
+            pagination
+              ? page >= Math.ceil(pagination.total / pagination.limit)
+              : false
+          }
           className={`px-4 py-2 bg-blue-500 text-white rounded ${
-            pagination && page >= Math.ceil(pagination.total / pagination.limit) ? "opacity-50 cursor-not-allowed" : ""
+            pagination &&
+            page >= Math.ceil(pagination.total / pagination.limit)
+              ? "opacity-50 cursor-not-allowed"
+              : ""
           }`}
         >
           Next
@@ -127,7 +153,10 @@ const ArtWorkTable = () => {
             placeholder="Select rows..."
             className="p-2 border rounded w-full"
           />
-          <button onClick={handleSubmit} className="px-4 py-2 mt-3 bg-blue-500 text-white rounded">
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 mt-3 bg-blue-500 text-white rounded"
+          >
             Submit
           </button>
         </div>
