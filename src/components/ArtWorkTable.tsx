@@ -12,7 +12,7 @@ const ArtWorkTable = () => {
   const [pagination, setPagination] = useState<PaginationTypes | null>(null);
   const [inputValue, setInputValue] = useState("");
   const overlayRef = useRef<OverlayPanel | null>(null);
-  const [selectedProductIds, setSelectedProductIds] = useState<Set<number>>(new Set()); 
+  const [selectedArtWorks, setSelectedArtWorks] = useState<ArtWorkTypes[]>([]); 
 
   const fetchPageData = async (page: number) => {
     try {
@@ -59,24 +59,23 @@ const ArtWorkTable = () => {
         currentPage++;
       }
 
-      const newSelectedIds = rowsToSelect.map(artwork => artwork.id);
-setSelectedProductIds(prevIds => new Set([...prevIds, ...newSelectedIds])); 
+      setSelectedArtWorks((prevSelected) => [...prevSelected, ...rowsToSelect]);
       overlayRef.current?.hide();
     } else {
       alert(`Please enter a valid number of rows (maximum: ${totalAvailableRows}).`);
     }
   };
 
-  const handleSelectionChange = (e: { value: number[] }) => {
-    setSelectedProductIds(new Set(e.value));  
+  const handleSelectionChange = (e: { value: ArtWorkTypes[] }) => {
+    setSelectedArtWorks(e.value); 
   };
 
   return (
-    <div className="md:p-20 ">
+    <div className="md:p-20">
       <DataTable
         value={artWorks}
         selectionMode="checkbox"
-        selection={selectedProductIds} // Use the selected rows state directly
+        selection={selectedArtWorks} 
         onSelectionChange={handleSelectionChange}
         dataKey="id"
         tableStyle={{ minWidth: "40rem" }}
@@ -111,7 +110,9 @@ setSelectedProductIds(prevIds => new Set([...prevIds, ...newSelectedIds]));
         <button
           onClick={handleNextPage}
           disabled={pagination ? page >= Math.ceil(pagination.total / pagination.limit) : false}
-          className={`px-4 py-2 bg-blue-500 text-white rounded ${pagination && page >= Math.ceil(pagination.total / pagination.limit) ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            pagination && page >= Math.ceil(pagination.total / pagination.limit) ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           Next
         </button>
